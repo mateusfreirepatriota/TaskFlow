@@ -20,7 +20,12 @@ O TaskFlow é um sistema de gerenciamento de tarefas acadêmicas desenvolvido pa
 - Proteção das senhas por criptografia
 
 ## Iteração 1 – Fase de Construção
+
+O registro desta versão está identificado pela tag `v1` no repositório.
 Nesta iteração são considerados o guia do usuário, o diagrama de implantação e a demonstração da aplicação em funcionamento.
+
+## Acompanhamento das atividades
+O projeto mantém o acompanhamento das tarefas por meio de quadros, prazos e responsáveis definidos pelos integrantes.
 
 ## Estrutura de implantação
 A aplicação é organizada em dispositivo do usuário, servidor da aplicação e servidor de banco de dados, com comunicação entre os componentes por rede.
