@@ -59,7 +59,6 @@ test('criar, pesquisar, editar, mover e excluir tarefa; consultar relatório', a
 test('validação de título obrigatório e layout mobile', async ({ page }) => {
   await registerAndLogin(page);
   await page.getByRole('button', { name: '+ Nova tarefa' }).click();
-  await page.locator('#title').evaluate(el => el.removeAttribute('required'));
   await page.locator('#title').fill('');
   await page.getByRole('button', { name: 'Salvar' }).click();
   await expect(page.locator('#dialog')).toBeVisible();
