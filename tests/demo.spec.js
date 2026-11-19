@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 test('DEMO-8MIN - demonstração guiada do TaskFlow', async ({ page }) => {
+  test.setTimeout(10 * 60 * 1000);
   const scene = async (title, detail) => {
     await page.evaluate(({title, detail}) => {
       let box = document.getElementById('demo-caption');
