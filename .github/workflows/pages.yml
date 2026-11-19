@@ -37,6 +37,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: taskflow-test-results
+          path: .demo-artifacts
+      - run: mkdir -p public/demo && find .demo-artifacts -name '*.webm' -type f -print -quit | xargs -r -I {} cp {} public/demo/taskflow-demo.webm
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
