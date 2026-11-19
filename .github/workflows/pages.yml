@@ -4,7 +4,7 @@ on:
     branches: [iteracao2]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
@@ -48,3 +48,32 @@ jobs:
           path: .
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  publish-video:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: taskflow-test-results
+          path: .demo-artifacts
+      - name: Prepare MP4
+        run: |
+          VIDEO="$(find .demo-artifacts -path '*DEMO-8MIN*' -name 'video.webm' -type f -print -quit)"
+          test -n "$VIDEO"
+          ffmpeg -y -i "$VIDEO" -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -movflags +faststart -an taskflow-demo.mp4
+      - name: Publish public video branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan demo-video
+          git rm -rf . || true
+          cp taskflow-demo.mp4 /tmp/taskflow-demo.mp4
+          git clean -fdx
+          cp /tmp/taskflow-demo.mp4 taskflow-demo.mp4
+          git add taskflow-demo.mp4
+          git commit -m "Publish TaskFlow browser demonstration"
+          git push origin HEAD:demo-video --force
